@@ -7,7 +7,7 @@ class CurvatureRoad:
         self.vehicles_in_region1 = set()
         self.vehicles_in_region3 = set()
         self.messages_sent = set()
-        self.aio = Client("Balajk123", "aio_TyMA06WL9hcVTSKnNyAn1bDdMZM7")  # Replace with your Adafruit IO username and key
+        self.aio = Client("***************", "***************")  # Replace with your Adafruit IO username and key
 
     def check_vehicle_position(self, vehicle_data):
         for vehicle in vehicle_data:
