@@ -4,8 +4,8 @@ import time
 from Adafruit_IO import Client
 
 # Define your Adafruit IO username and key
-ADAFRUIT_IO_USERNAME = 'Balajk123'
-ADAFRUIT_IO_KEY = 'aio_TyMA06WL9hcVTSKnNyAn1bDdMZM7'
+ADAFRUIT_IO_USERNAME = '***************'
+ADAFRUIT_IO_KEY = '***************'
 
 # Define the feed name
 FEED_NAME = 'junction'
