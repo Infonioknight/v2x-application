@@ -1,0 +1,101 @@
+#include <SPI.h>
+#include <mcp2515.h>
+#include <Arduino.h>
+
+struct can_frame canMsg;
+MCP2515 mcp2515(10);
+
+const int pingPin = 7; // Trigger Pin of Ultrasonic Sensor
+const int echoPin = 6; // Echo Pin of Ultrasonic Sensor
+
+void setup() {
+    while (!Serial);
+    Serial.begin(9600);
+    SPI.begin();
+
+    pinMode(pingPin, OUTPUT);
+    pinMode(echoPin, INPUT);
+
+    mcp2515.reset();
+    mcp2515.setBitrate(CAN_500KBPS, MCP_8MHZ);
+    mcp2515.setNormalMode();
+}
+
+float getUltrasonicDistance() {
+    long duration;
+    digitalWrite(pingPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(pingPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(pingPin, LOW);
+    duration = pulseIn(echoPin, HIGH);
+    return duration / 29.0 / 2.0 / 100.0; // convert time to meters (cm / 100)
+}
+
+// Function to calculate distance traveled in 2 seconds
+float calculateDistanceTraveled(float speed_kmh) {
+    float speed_ms = speed_kmh * (1000.0 / 3600.0);
+    return speed_ms * 2;
+}
+
+// Function to check for possible impact and send alert
+int checkForPossibleImpact(float speed_kmh, float ultrasonic_distance_m, float prev_ultrasonic_distance_m, bool& first_below_measured) {
+    float distance_traveled = calculateDistanceTraveled(speed_kmh);
+    int alert = 1; // default no alert
+
+    if (ultrasonic_distance_m < distance_traveled) {
+        if (!first_below_measured) {
+            if (ultrasonic_distance_m < 0.010 * distance_traveled) {
+                alert = 2; // Alert for distance below 10%
+                Serial.println("Warning: Ultrasonic distance below 10% of safe distance");
+            } else {
+                float percentage_change = ((prev_ultrasonic_distance_m - ultrasonic_distance_m) / prev_ultrasonic_distance_m) * 100;
+                if (percentage_change > 30) {
+                    alert = 3; // Alert for sudden drop
+                    Serial.print("Warning: Sudden drop in Ultrasonic distance! Change: ");
+                    Serial.print(percentage_change, 2);
+                    Serial.println("%");
+                }
+            }
+        } else {
+            first_below_measured = false;
+        }
+    }
+    return alert;
+}
+
+void loop() {
+    static float prev_ultrasonic_distance_m = 0.0;
+    static bool first_below_measured = true;
+
+    int speed = 60;
+    int brake = 100;
+
+    float ultrasonic_distance_m = getUltrasonicDistance(); // distance in meters
+
+    int alert = checkForPossibleImpact(speed, ultrasonic_distance_m, prev_ultrasonic_distance_m, first_below_measured);
+
+    prev_ultrasonic_distance_m = ultrasonic_distance_m;
+
+    // Send speed, brake, and alert through CAN message
+    canMsg.can_id  = 0x036;
+    canMsg.can_dlc = 8;
+    canMsg.data[0] = speed; // speed in km/h
+    canMsg.data[1] = brake; // brake status
+    canMsg.data[2] = alert; // Alert integer
+    canMsg.data[3] = 0x00;
+    canMsg.data[4] = 0x00;
+    canMsg.data[5] = 0x00;
+    canMsg.data[6] = 0x00;
+    canMsg.data[7] = 0x00;
+    mcp2515.sendMessage(&canMsg);
+
+    Serial.print("Speed: ");
+    Serial.println(speed);
+    Serial.print("Brake: ");
+    Serial.println(brake);
+    Serial.print("Alert: ");
+    Serial.println(alert);
+
+    delay(1000);
+}

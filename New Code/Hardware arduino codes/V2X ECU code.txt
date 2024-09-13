@@ -1,0 +1,90 @@
+#include <SPI.h>
+#include <mcp2515.h>
+#include <ArduinoJson.h>
+
+struct can_frame canMsg1;
+struct can_frame canMsg2;
+
+// Define two instances of MCP2515 with different CS pins
+MCP2515 mcp2515_1(10); // SPI CS Pin for Module 1
+MCP2515 mcp2515_2(9);  // SPI CS Pin for Module 2
+
+void setup() {
+  Serial.begin(9600);
+  SPI.begin();
+
+  // Initialize both MCP2515 modules
+  mcp2515_1.reset();
+  mcp2515_1.setBitrate(CAN_500KBPS, MCP_8MHZ);
+  mcp2515_1.setNormalMode();
+
+  mcp2515_2.reset();
+  mcp2515_2.setBitrate(CAN_500KBPS, MCP_8MHZ);
+  mcp2515_2.setNormalMode();
+}
+
+void loop() {
+  // Declare static variables to retain their values between iterations
+  static int x = 0;
+  static int y = 0;
+  static int a = 0;
+  static int b = 0;
+  static int z = 0;
+
+  // Flags to track if new data has been received
+  bool newMsg1 = false;
+  bool newMsg2 = false;
+
+  // Check for messages from Module 1
+  if (mcp2515_1.readMessage(&canMsg1) == MCP2515::ERROR_OK) {
+    if (canMsg1.can_id == 0x036) {
+      x = canMsg1.data[0];
+      y = canMsg1.data[1];
+      z= canMsg1.data[2];
+      newMsg1 = true;
+    }
+  }
+
+  // Check for messages from Module 2
+  if (mcp2515_2.readMessage(&canMsg2) == MCP2515::ERROR_OK) {
+    if (canMsg2.can_id == 0x200) {
+      a = canMsg2.data[0];
+      b = canMsg2.data[1];
+      newMsg2 = true;
+    }
+  }
+
+  // If no new data was received, do not update JSON fields
+  if (!newMsg1 && !newMsg2) {
+    delay(1000);
+    return;
+  }
+
+  int rpm = x;
+  int alert = z;
+  int latitude = a;
+  int longitude = b;
+  int soc = random(0, 100);
+  int voltage = random(0, 100);
+  int temp = random(0, 100);
+  int id = 1;
+  float altitude = 10.5;
+
+  // Create JSON object
+  StaticJsonDocument<200> doc;
+  doc["rpm"] = rpm;
+  doc["soc"] = soc;
+  doc["voltage"] = voltage;
+  doc["temp"] = temp;
+  doc["id"] = id;
+  doc["lat"] = latitude;
+  doc["long"] = longitude;
+  doc["alt"] = altitude;
+  doc["alert"] = alert;
+
+  // Serialize JSON to string and send over serial
+  serializeJson(doc, Serial);
+  Serial.println();  // Print newline for termination
+
+  delay(1000);  // Wait for 1 second
+}
