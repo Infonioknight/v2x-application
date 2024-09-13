@@ -1,8 +1,8 @@
 import requests
 
 # Adafruit IO credentials
-username = "Balajk123"
-aio_key = "aio_TyMA06WL9hcVTSKnNyAn1bDdMZM7"
+username = "***************"
+aio_key = "***************"
 feed_key = "tolldata"
 
 # URL to fetch data from Adafruit IO feed
