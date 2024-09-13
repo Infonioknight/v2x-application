@@ -12,16 +12,16 @@ from Adafruit_IO import Client
 import requests
 
 # Define your Adafruit IO username and key
-ADAFRUIT_IO_USERNAME = 'Balajk123'
-ADAFRUIT_IO_KEY = 'aio_TyMA06WL9hcVTSKnNyAn1bDdMZM7'
+ADAFRUIT_IO_USERNAME = 'UNAME'
+ADAFRUIT_IO_KEY = 'KEY'
 FEED_NAME = 'vehicle'
 TOLL_FEED_NAME = 'tollamount'
 VEHICLE_PARAMETERS_FEED_NAME = 'VehicleParameters'
 
 # Initialize the Adafruit IO client
 aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
-username = "Balajk123"
-aio_key = "aio_TyMA06WL9hcVTSKnNyAn1bDdMZM7"
+username = "xxxxxx"
+aio_key = "xxxxxx"
 feed_key = "notifications"
 toll_key = "tollamount"
 vehicle_key = "vehicleparameters"
