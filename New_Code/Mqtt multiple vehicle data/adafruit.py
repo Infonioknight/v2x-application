@@ -27,8 +27,8 @@ def fetch_data_from_db():
     return total_vehicles, ambulances, fire_engines
 
 # Your Adafruit IO username and active key
-username = "Balajk123"
-active_key = "aio_TyMA06WL9hcVTSKnNyAn1bDdMZM7"
+username = "***************"
+active_key = "***************"
 
 # URL of the feed
 url = f"https://io.adafruit.com/api/v2/{username}/feeds/vehicleparameters/data"
