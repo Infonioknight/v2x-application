@@ -11,7 +11,7 @@ class Vehicle:
         self.wallet = 1000  
         self.total_toll_amount = 0  
         self.distance_traveled = 0  
-        self.aio = Client('Balajk123', 'aio_TyMA06WL9hcVTSKnNyAn1bDdMZM7') 
+        self.aio = Client('***************', '***************') 
 
     def move(self, filename='movement2.txt'):
         with open(filename, 'r') as file:
