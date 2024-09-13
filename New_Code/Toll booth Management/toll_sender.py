@@ -2,8 +2,8 @@ import time
 from Adafruit_IO import Client, Feed
 
 # Adafruit IO username and active key
-ADAFRUIT_IO_USERNAME = 'Balajk123'
-ADAFRUIT_IO_KEY = 'aio_TyMA06WL9hcVTSKnNyAn1bDdMZM7'
+ADAFRUIT_IO_USERNAME = '***************'
+ADAFRUIT_IO_KEY = '***************'
 
 # Create an instance of the REST client
 aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
