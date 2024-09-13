@@ -1,7 +1,9 @@
 # V2X Communication (A reasonably detailed and thoroughly designed network architecture)
 (This definitely can be improved on and made better to scale)
 
-This is a network-ish design for data handling and usage after it is obtained from the vehicle.
+### Note: This README.md file applies exclusively to the 'Legacy Code'
+
+This is a network-ish design for data handling and usage after obtaining it from the vehicle.
 
 ## How to run:
 
