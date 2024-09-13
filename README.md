@@ -1,11 +1,15 @@
 # V2X Communication (A reasonably detailed and thoroughly designed network architecture)
 (This definitely can be improved on and made better to scale)
 
-### Note: This README.md file applies exclusively to the 'Legacy Code'
-
 This is a network-ish design for data handling and usage after obtaining it from the vehicle.
 
 ## How to run:
+
+### Note: This README.md file applies exclusively to the 'Legacy Code' (so as a pre-setup or whatever you'd like to call it):
+```
+cd Legacy_Code
+```
+The above should get you into the right directory to execute the code.
 
 ### 1. Assuming you have a module sending data to an MQTT broker: (from the root folder) - Else jump to step 2.
 ```
@@ -52,3 +56,20 @@ npx expo start
 This starts the application on a server which you can access by downloading the 'expo go' app on android and scanning the QR code (no release build as of now sorry)
 
 Contains authentication using firebase auth. Further ensures security by requiring vehicle number to access data from the firebase 'Realtime Database'. Also consists of a map to show the current (last updated) location of the vehicle.
+
+## New Code:
+
+### There is a lot of new code, and new functionality added to the project such as:
+  - Curvature alerts
+  - Junction alerts
+  - Toll both management
+
+### Many of the legacy code has been changed too, especially with how the MQTT broker interacts with the script. These folders also contain new and modified files:
+  - MQTT single-vehicle data
+  - MQTT multiple vehicle data
+
+### Apart from these, the GUI code (for the new functionality such as traffic lane management, toll, junction etc.) has been included:
+  - GUI
+
+### Finally, the hardware Arduino code has also been added:
+  - Hardware Arduino code
