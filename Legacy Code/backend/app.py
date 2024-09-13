@@ -8,7 +8,6 @@ import json
 import time
 
 user_email1 = 'scorchedeyeball@gmail,com'
-user_email2 = 'manishanand248@gmail,com'
 cred = credentials.Certificate("/Users/gaurav/Desktop/PleaseWork/backend/credentials.json")
 firebase_admin.initialize_app(cred, {"databaseURL": "https://v2x-app-default-rtdb.asia-southeast1.firebasedatabase.app/"})
 
@@ -81,8 +80,6 @@ def index():
         del modified_data['_sa_instance_state']
         if modified_data['car_number'] == 'AX63TY8123':
             new_ref = users_ref.child(f'{user_email1}/{modified_data['car_number']}/{modified_data['id']}')
-        elif modified_data['car_number'] == 'XY12AB3456':
-            new_ref = users_ref.child(f'{user_email2}/{modified_data['car_number']}/{modified_data['id']}')
 
         try:
             fdb.session.add(app_data)
