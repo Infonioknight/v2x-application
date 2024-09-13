@@ -3,8 +3,8 @@ import sqlite3
 import json
 
 # Adafruit IO credentials
-IO_USERNAME = "Balajk123"
-IO_KEY = "aio_TyMA06WL9hcVTSKnNyAn1bDdMZM7"
+IO_USERNAME = "***************"
+IO_KEY = "***************"
 
 # Function to fetch data from Adafruit IO
 def fetch_data():
