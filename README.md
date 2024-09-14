@@ -5,7 +5,7 @@ This is a network-ish design for data handling and usage after obtaining it from
 
 ## How to run:
 
-### Note: This README.md file applies exclusively to the 'Legacy Code' (so as a pre-setup or whatever you'd like to call it):
+### Note: This README.md file applies exclusively to the 'Legacy Code':
 ```
 cd Legacy_Code
 ```
